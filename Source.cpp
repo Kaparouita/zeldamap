@@ -131,9 +131,9 @@ void DrawMap(vector<vector<int>> map) {
 		for (int j = 0; j < map[i].size(); j++) {
 
 			if (map[i][j] == 0)
-				al_draw_filled_rectangle(i * blocksize, j * blocksize, i * blocksize + blocksize, j * blocksize + blocksize, al_map_rgb(0, 0, 255));
+				al_draw_filled_rectangle(j * blocksize, i * blocksize, j * blocksize + blocksize, i * blocksize + blocksize, al_map_rgb(0, 0, 255));
 			else if (map[i][j] == 1)
-				al_draw_filled_rectangle(i * blocksize, j * blocksize, i * blocksize + blocksize, j * blocksize + blocksize, al_map_rgb(0, 255, 0));
+				al_draw_filled_rectangle(j * blocksize, i * blocksize, j * blocksize + blocksize, i * blocksize + blocksize, al_map_rgb(0, 255, 0));
 
 			cout << map[i][j] << " ";
 		}
