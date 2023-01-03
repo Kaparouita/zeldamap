@@ -12,11 +12,10 @@ namespace app {
 	protected:
 		Game game;
 	public:
-		void	Initialise(void);
-		void	Load(void);
-		void	Run(void);
-		void	RunIteration(void);
-
+		void Initialise(void);
+		void Load(void);
+		void Run(void);
+		void RunIteration(void);
 		Game& GetGame(void);
 		const Game& GetGame(void) const;
 		virtual void	Clear(void);

@@ -39,7 +39,8 @@ void App::Main() {
 	Initialise();
 	Load();
 	Run();
-	//Clear();
+	Clear();
+
 }
 
 Game& App::GetGame() {

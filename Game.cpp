@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 void Game::setDisplay(int Width, int Height) {
 	display = al_create_display(Width, Height);
 	al_set_window_position(display, 200, 200);
@@ -10,8 +11,8 @@ void Game::setDisplayMainValues() {
 	al_set_window_position(display, 200, 200);
 }
 void Game::initTimers() {
-	timer = al_create_timer(1.0 / fps);
-	frameTimer = al_create_timer(1.0 / frameFPS);
+	timer = al_create_timer(1.0 / FPS_TIMER);
+	frameTimer = al_create_timer(1.0 / FPS_FRAME);
 	event_queue = al_create_event_queue();
 }
 
@@ -43,17 +44,16 @@ void Game::LoadMap(string filename, vector<vector<int>>& map) {
 	}
 }
 
-void initVectorsForMap(vector<int>& divIndex, vector<int>& modIndex, int width, int height) {
-	const int tiles = width * height;
-	for (int i = 0; i < tiles; ++i)
-		divIndex.push_back(i / width),
-		modIndex.push_back(i % width);
+void initVectorsForMap(int divIndex[], int modIndex[], int width, int height) {
+	for (int i = 0; i < TILES; ++i)
+		divIndex[i] = (i / width),
+		modIndex[i] = (i % width);
 }
 
 void Game::LoadMaps() {
 	tileset = al_load_bitmap("D:\\csd2\\HY-454\\images\\tileset.png");
-	initVectorsForMap(divIndex, modIndex, 12, 20);
-	player = al_load_bitmap("D:\\csd2\\HY-454\\images\\player.png");
+	initVectorsForMap(divIndex, modIndex, TileSetWidth, TileSetHeight);
+	//player = al_load_bitmap("D:\\csd2\\HY-454\\images\\player.png");
 	LoadMap("D:\\csd2\\HY-454\\images\\map1.csv", map1);
 	LoadMap("D:\\csd2\\HY-454\\images\\map2.csv", map2);
 }
@@ -66,10 +66,14 @@ void Game::CameraUpdate(float* cameraPosition, float x, float y, int width, int 
 		cameraPosition[0] = 0;
 	if (cameraPosition[1] < 0)
 		cameraPosition[1] = 0;
+	if (cameraPosition[0] > TILES)
+		cameraPosition[0] = TILES;
+	if (cameraPosition[1] > TILES)
+		cameraPosition[1] = TILES;
 }
 
 
-void Game::DrawMap(vector<vector<int>> map, ALLEGRO_BITMAP* tileset, vector<int> divIndex, vector<int> modIndex) {
+void Game::DrawMap(vector<vector<int>> map, ALLEGRO_BITMAP* tileset, int divIndex[], int modIndex[]) {
 
 	for (int i = 0; i < map.size(); i++)
 	{
@@ -99,56 +103,57 @@ void Game::MainLoop() {
 				//MOVING
 				al_get_keyboard_state(&keyState);
 				if (al_key_down(&keyState, ALLEGRO_KEY_DOWN)) {
-					y += moveSpeed;
+					y += MOVE_SPEED;
 					dir = DOWN;
 				}
 				else if (al_key_down(&keyState, ALLEGRO_KEY_UP)) {
-					y -= moveSpeed;
+					y -= MOVE_SPEED;
 					dir = UP;
 				}
 				else if (al_key_down(&keyState, ALLEGRO_KEY_RIGHT)) {
-					x += moveSpeed;
+					x += MOVE_SPEED;
 					dir = RIGHT;
 				}
 				else if (al_key_down(&keyState, ALLEGRO_KEY_LEFT)) {
-					x -= moveSpeed;
+					x -= MOVE_SPEED;
 					dir = LEFT;
 				}
 				else
 					active = false;
 
 				/*scrolling*/
-				CameraUpdate(cameraPosition, x, y, 16, 16);
+				CameraUpdate(cameraPosition, x, y, 4, 4);
 
 				al_identity_transform(&camera);
 				al_translate_transform(&camera, -cameraPosition[0], -cameraPosition[1]);
 				al_use_transform(&camera);
 
 			}
-
+			/*
 			else if (events.timer.source == frameTimer) {
 				if (active)
 					sourceX += al_get_bitmap_width(player) / 3;
 				else
-					sourceX = 16;
+					sourceX = 4;
 				if (sourceX >= al_get_bitmap_width(player))
 					sourceX = 0;
 				sourceY = dir;
-			}
+			}*/
 			draw = true;
 		}
 		if (draw)
 		{
-			ALLEGRO_BITMAP* subBitmap;
-			subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 16, 16, 16);
+			//ALLEGRO_BITMAP* subBitmap;
+			//subBitmap = al_create_sub_bitmap(player, sourceX, sourceY * 16, 16, 16);
 			DrawMap(map2, tileset, divIndex, modIndex);
 			DrawMap(map1, tileset, divIndex, modIndex);
-			//al_draw_rectangle(x, y, x + 20, y + 20, player, 2.0);
+			al_draw_filled_rectangle(x, y, x + 8, y + 8, al_map_rgb(44, 117, 255));
+			//al_draw_rectangle(x, y, x + 8, y + 8, al_map_rgb(44, 117, 255), 2.0);
 
-			al_draw_bitmap(subBitmap, x, y, NULL);
+			//al_draw_bitmap(subBitmap, x, y, NULL);
 			al_flip_display();
 			al_clear_to_color(al_map_rgb(0, 0, 0));
-			al_destroy_bitmap(subBitmap);
+			//al_destroy_bitmap(subBitmap);
 		}
 	}
 
