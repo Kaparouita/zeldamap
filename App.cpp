@@ -50,11 +50,10 @@ const Game& App::GetGame() const {
 	return game;
 }
 
-
-
+/*
 int main() {
 	App app;
 	app.Main();
-}
+}*/
 
 

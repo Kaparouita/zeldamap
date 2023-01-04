@@ -25,14 +25,19 @@ using namespace std;
 #define TILE_WIDTH 16
 #define TILE_HEIGHT 16
 #define TileSetWidth 12
-#define TileSetHeight 16
+#define TileSetHeight 21
 #define TILES TileSetWidth*TileSetHeight
 #define X_MOVEMENT 8
 #define Y_MOVEMENT 8
 #define MOVE_SPEED 4
 #define FPS_TIMER 20
 #define FPS_FRAME 15
+#define MAX_WIDTH 1024
+#define MAX_HEIGHT 256
 
+typedef unsigned short Index; // [MSB X][LSB Y]
+typedef int Dim; // [MSB X][LSB Y]
+typedef vector<vector<int>> TileMap;
 
 class Game {
 
@@ -54,8 +59,6 @@ protected:
 	float x = X_MOVEMENT, y = Y_MOVEMENT;
 	int dir = DOWN, sourceX = 8, sourceY = 0;
 
-	vector<vector<int>> map1;
-	vector<vector<int>> map2;
 	int divIndex[TILES];
 	int modIndex[TILES];
 
@@ -64,6 +67,13 @@ protected:
 	 */
 	void LoadMap(string filename, vector<vector<int>>& map);
 public:
+	TileMap map1;
+	TileMap map2;
+
+	void SetTile(TileMap* m, Dim col, Dim row, Index index);
+
+	Index GetTile(const TileMap* m, Dim col, Dim row);
+
 
 	ALLEGRO_DISPLAY* GetDisplay() { return display; }
 

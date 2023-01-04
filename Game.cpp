@@ -44,6 +44,15 @@ void Game::LoadMap(string filename, vector<vector<int>>& map) {
 	}
 }
 
+void Game::SetTile(TileMap* m, Dim col, Dim row, Index index)
+{
+	(*m)[row][col] = index;
+}
+Index Game::GetTile(const TileMap* m, Dim col, Dim row)
+{
+	return (*m)[row][col];
+}
+
 void initVectorsForMap(int divIndex[], int modIndex[], int width, int height) {
 	for (int i = 0; i < TILES; ++i)
 		divIndex[i] = (i / width),
@@ -66,10 +75,10 @@ void Game::CameraUpdate(float* cameraPosition, float x, float y, int width, int 
 		cameraPosition[0] = 0;
 	if (cameraPosition[1] < 0)
 		cameraPosition[1] = 0;
-	if (cameraPosition[0] > TILES)
-		cameraPosition[0] = TILES;
-	if (cameraPosition[1] > TILES)
-		cameraPosition[1] = TILES;
+	if (cameraPosition[0] > blocksize * 12)
+		cameraPosition[0] = blocksize * 12;
+	if (cameraPosition[1] > blocksize * 12)
+		cameraPosition[1] = blocksize * 12;
 }
 
 
