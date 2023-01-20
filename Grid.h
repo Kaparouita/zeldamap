@@ -22,7 +22,7 @@
 #define GRID_MAX_HEIGHT (MAX_HEIGHT * GRID_BLOCK_ROWS)
 #define GRID_MAX_WIDTH (MAX_WIDTH * GRID_BLOCK_COLUMNS)
 
-using GridIndex = bool;
+using GridIndex = int;
 typedef GridIndex GridMap[GRID_MAX_WIDTH][GRID_MAX_HEIGHT];
 static GridMap grid;
 
@@ -43,7 +43,7 @@ class Grid {
 
 public:
 
-
+	static bool CanPassGridTile(GridMap* m, Dim col, Dim row);
 	void ComputeTileGridBlock1();
 };
 

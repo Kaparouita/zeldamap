@@ -31,9 +31,9 @@ using namespace std;
 #define Y_MOVEMENT 8
 #define MOVE_SPEED 4
 #define FPS_TIMER 20
-#define FPS_FRAME 15
-#define MAX_WIDTH 1024
-#define MAX_HEIGHT 256
+#define FPS_FRAME 60
+#define MAX_WIDTH 128
+#define MAX_HEIGHT 32
 
 typedef unsigned short Index; // [MSB X][LSB Y]
 typedef int Dim; // [MSB X][LSB Y]

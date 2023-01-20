@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include "Grid.h"
 
 void Game::setDisplay(int Width, int Height) {
 	display = al_create_display(Width, Height);
@@ -111,7 +111,7 @@ void Game::MainLoop() {
 				active = true;
 				//MOVING
 				al_get_keyboard_state(&keyState);
-				if (al_key_down(&keyState, ALLEGRO_KEY_DOWN)) {
+				if (al_key_down(&keyState, ALLEGRO_KEY_DOWN) && Grid::CanPassGridTile(grid, (int)x / 8, (int)y / 8)) {
 					y += MOVE_SPEED;
 					dir = DOWN;
 				}
